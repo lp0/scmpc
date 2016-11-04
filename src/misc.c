@@ -33,6 +33,8 @@
  */
 static FILE *log_file;
 
+gchar *buffer = NULL;
+
 void open_log(const gchar *filename)
 {
 	if (!prefs.fork) {
@@ -79,7 +81,13 @@ void scmpc_log(G_GNUC_UNUSED const gchar *log_domain, GLogLevelFlags log_level,
 gsize buffer_write(void *input, gsize size, gsize nmemb,
 		G_GNUC_UNUSED void *buf)
 {
-	buffer = g_strdup(input);
+	if (buffer != NULL) {
+		gchar *tmp = buffer;
+		buffer = g_strconcat(buffer, input, NULL);
+		g_free(tmp);
+	} else {
+		buffer = g_strdup(input);
+	}
 	return size * nmemb;
 }
 
