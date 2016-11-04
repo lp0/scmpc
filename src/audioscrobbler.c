@@ -470,7 +470,7 @@ static void as_parse_error(char *response)
 
 void as_check_submit(void)
 {
-	if (queue_get_length() > 0 && as_conn.status == CONNECTED &&
+	if (queue_get_length() > 0 && as_conn.status != BADAUTH &&
 			elapsed(as_conn.last_fail) >= 600) {
 		if (as_submit() == FALSE)
 			as_conn.last_fail = get_time();
