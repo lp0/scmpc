@@ -322,15 +322,8 @@ gboolean init_preferences(gint argc, gchar **argv)
 	if (tmp) {
 		g_free(prefs.mpd_password);
 		g_free(prefs.mpd_hostname);
-		if (g_strrstr(tmp, "@")) {
-			prefs.mpd_password = g_strdup(strtok_r(tmp, "@",
-						&saveptr));
-			prefs.mpd_hostname = g_strdup(strtok_r(NULL, "@",
-						&saveptr));
-		} else {
-			prefs.mpd_password = g_strdup("");
-			prefs.mpd_hostname = g_strdup(tmp);
-		}
+		prefs.mpd_password = g_strdup("");
+		prefs.mpd_hostname = g_strdup(tmp);
 	}
 	if (getenv("MPD_PORT"))
 		prefs.mpd_port = strtol(getenv("MPD_PORT"), NULL, 10);
