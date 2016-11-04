@@ -25,6 +25,7 @@
 
 
 #include <mpd/client.h>
+#include <unistd.h>
 
 #include "mpd.h"
 #include "preferences.h"
@@ -44,6 +45,7 @@ gboolean mpd_connect(void)
 	if (mpd_connection_get_error(mpd.conn) != MPD_ERROR_SUCCESS) {
 		g_warning("Failed to connect to MPD: %s",
 				mpd_connection_get_error_message(mpd.conn));
+		sleep(1);
 		return FALSE;
 	} else if (mpd_connection_cmp_server_version(mpd.conn, 0, 14, 0) < 0) {
 		g_critical("MPD too old, please upgrade to 0.14 or newer");
@@ -63,6 +65,7 @@ gboolean mpd_connect(void)
 		if (mpd_connection_get_error(mpd.conn) != MPD_ERROR_SUCCESS) {
 			g_warning("Failed to connect to MPD: %s",
 					mpd_connection_get_error_message(mpd.conn));
+			sleep(1);
 			mpd_disconnect();
 			mpd_schedule_reconnect();
 			return FALSE;
